@@ -27,7 +27,7 @@ trait ApiPaginateTrait
 
         $this->items = $query->get();
 
-        $this->pagination = new SimpleApiPaginate($this->items, $this->limit, $this->offset);
+        $this->pagination = new ApiPaginate($this->items, $this->limit, $this->offset);
 
         return $this->pagination;
     }
