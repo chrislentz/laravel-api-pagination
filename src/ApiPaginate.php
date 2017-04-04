@@ -11,32 +11,39 @@ use JsonSerializable;
 
 class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable
 {
+    protected $limit;
+    protected $offset;
+    protected $next_offset;
+    protected $previous_offset;
     protected $next_page;
     protected $previous_page;
 
     public function __construct($items, int $limit = 5, int $offset = 0)
     {
+        $this->limit = $limit;
+        $this->offset = $offset;
+
         $this->items = $items instanceof Collection ? $items : Collection::make($items);
 
-        $this->setMetaData($limit, $offset);
+        $this->generateProperties();
         
         $this->items->forget($limit);
     }
 
-    protected function setMetaData($limit, $offset)
+    protected function generateProperties()
     {
-        $previous_limit = ($offset >= $limit) ? $limit : $offset;
+        $previous_limit = ($this->offset >= $this->limit) ? $this->limit : $this->offset;
 
         // previous_page
-        if ($offset > 0) {
-            $this->previous_page = 'limit=' . $previous_limit . '&offset=' . max(0, $offset - $limit);
+        if ($this->offset > 0) {
+            $this->previous_page = 'limit=' . $previous_limit . '&offset=' . max(0, $this->offset - $this->limit);
         } else {
             $this->previous_page = null;
         }
 
         // next_page
-        if (count($this->items) > $limit) {
-            $this->next_page = 'limit=' . $limit . '&offset=' . ($offset + $limit);
+        if (count($this->items) > $this->limit) {
+            $this->next_page = 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
         } else {
             $this->next_page = null;
         }
