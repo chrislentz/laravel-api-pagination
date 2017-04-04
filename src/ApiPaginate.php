@@ -34,27 +34,53 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
     {
         $previous_limit = ($this->offset >= $this->limit) ? $this->limit : $this->offset;
 
-        // previous_page
-        if ($this->offset > 0) {
-            $this->previous_page = 'limit=' . $previous_limit . '&offset=' . max(0, $this->offset - $this->limit);
-        } else {
-            $this->previous_page = null;
-        }
+        // Generate next offset
+        $this->next_offset = $this->offset + $this->limit;
 
-        // next_page
+        // Generate next page
         if (count($this->items) > $this->limit) {
             $this->next_page = 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
         } else {
             $this->next_page = null;
         }
+
+        // Generate previous offset
+        $this->previous_offset = max(0, $this->offset - $this->limit);
+
+        // Generate previous page
+        if ($this->offset > 0) {
+            $this->previous_page = 'limit=' . $previous_limit . '&offset=' . $this->previous_offset;
+        } else {
+            $this->previous_page = null;
+        }
     }
 
-    public function nextPage()
+    public function getLimit()
+    {
+        return $this->limit;
+    }
+
+    public function getOffset()
+    {
+        return $this->offset;
+    }
+
+    public function getNextOffset()
+    {
+        return $this->next_offset;
+    }
+
+    public function getNextPage()
     {
         return $this->next_page;
     }
 
-    public function previousPage()
+    public function getPreviousOffset()
+    {
+        return $this->previous_offset;
+    }
+
+    public function getPreviousPage()
     {
         return $this->previous_page;
     }
@@ -62,8 +88,12 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
     public function toArray()
     {
         return [
-            'previous_page' => $this->previous_page,
+            'limit' => $this->limit,
+            'offset' => $this->offset,
+            'next_offset' => $this->next_offset,
             'next_page' => $this->next_page,
+            'previous_offset' => $this->previous_offset,
+            'previous_page' => $this->previous_page,
             'data' => $this->items->toArray(),
         ];
     }
