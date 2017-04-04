@@ -1,0 +1,26 @@
+{
+	"name": "chrislentz/laravel-api-pagination",
+	"description": "A simple pagination package that provides API support via limit and offset parameters for the Laravel framework.",
+	"keywords": [
+        "api",
+        "paginate",
+        "pagination",
+        "laravel"
+    ],
+	"require": {
+		"php": ">=7.0",
+		"illuminate/support": ">=5.4.0"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Chris Lentz",
+			"email": "chris.atlchris@gmail.com"
+		}
+	],
+	"autoload": {
+		"psr-4": {
+			"ChrisLentz\\LaravelApiPagination\\": "src/"
+		}
+	}
+}
