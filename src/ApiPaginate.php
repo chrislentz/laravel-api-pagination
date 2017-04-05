@@ -45,7 +45,7 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
         }
 
         if ($has_param === true) {
-            $this->url = substr($url, 0, -1);
+            $this->url = substr($this->url, 0, -1);
         }
     }
 
