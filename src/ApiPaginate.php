@@ -36,16 +36,11 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
     {
         $this->url = Request::url() . '?';
 
-        $has_param = false;
         foreach (Request::all() as $k => $v) {
             if (!in_array($k, ['limit', 'offset'])) {
                 $this->url .= $k . '=' . $v . '&';
                 $has_param = true;
             }
-        }
-
-        if ($has_param === true) {
-            $this->url = substr($this->url, 0, -1);
         }
     }
 
@@ -56,7 +51,7 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
         // Generate next offset & page
         if (count($this->items) > $this->limit) {
             $this->next_offset = $this->offset + $this->limit;
-            $this->next_page = $this->url . 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
+            $this->next_page = $this->url . 'limit=' . $this->limit . '&offset=' . $this->next_offset;
         } else {
             $this->next_offset = null;
             $this->next_page = null;
@@ -65,7 +60,7 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
         // Generate previous offset & page
         if ($this->offset > 0) {
             $this->previous_offset = max(0, $this->offset - $this->limit);
-            $this->previous_page = $this->url . 'limit=' . $previous_limit . '&offset=' . $this->previous_offset;
+            $this->previous_page = $this->url . 'limit=' . $this->limit . '&offset=' . $this->previous_offset;
         } else {
             $this->previous_offset = null;
             $this->previous_page = null;
