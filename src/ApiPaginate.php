@@ -6,6 +6,7 @@ use ArrayAccess;
 use Countable;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\AbstractPaginator;
+use Illuminate\Support\Facades\Request;
 use IteratorAggregate;
 use JsonSerializable;
 
@@ -25,32 +26,48 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
 
         $this->items = $items instanceof Collection ? $items : Collection::make($items);
 
+        $this->buildUrl();
         $this->generateProperties();
         
         $this->items->forget($limit);
+    }
+
+    protected function buildUrl()
+    {
+        $this->url = Request::url() . '?';
+
+        $has_param = false;
+        foreach (Request::all() as $k => $v) {
+            if (!in_array($k, ['limit', 'offset'])) {
+                $this->url .= $k . '=' . $v . '&';
+                $has_param = true;
+            }
+        }
+
+        if ($has_param === true) {
+            $this->url = substr($url, 0, -1);
+        }
     }
 
     protected function generateProperties()
     {
         $previous_limit = ($this->offset >= $this->limit) ? $this->limit : $this->offset;
 
-        // Generate next offset
-        $this->next_offset = $this->offset + $this->limit;
-
-        // Generate next page
+        // Generate next offset & page
         if (count($this->items) > $this->limit) {
-            $this->next_page = 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
+            $this->next_offset = $this->offset + $this->limit;
+            $this->next_page = $this->url . 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
         } else {
+            $this->next_offset = null;
             $this->next_page = null;
         }
 
-        // Generate previous offset
-        $this->previous_offset = max(0, $this->offset - $this->limit);
-
-        // Generate previous page
+        // Generate previous offset & page
         if ($this->offset > 0) {
-            $this->previous_page = 'limit=' . $previous_limit . '&offset=' . $this->previous_offset;
+            $this->previous_offset = max(0, $this->offset - $this->limit);
+            $this->previous_page = $this->url . 'limit=' . $previous_limit . '&offset=' . $this->previous_offset;
         } else {
+            $this->previous_offset = null;
             $this->previous_page = null;
         }
     }
