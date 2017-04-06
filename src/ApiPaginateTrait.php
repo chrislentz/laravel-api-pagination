@@ -31,26 +31,4 @@ trait ApiPaginateTrait
 
         return $this->pagination;
     }
-
-    private function generatePaginationMetaData()
-    {
-        $meta_data = collect([
-            'previous_page' => null,
-            'next_page' => null,
-        ]);
-
-        $previous_limit = ($this->offset >= $this->limit) ? $this->limit : $this->offset;
-
-        // previous_page
-        if ($this->offset > 0) {
-            $meta_data['previous_page'] = 'limit=' . $previous_limit . '&offset=' . max(0, $this->offset - $this->limit);
-        }
-
-        // next_page
-        if (count($this->items) > $this->limit) {
-            $meta_data['next_page'] = 'limit=' . $this->limit . '&offset=' . ($this->offset + $this->limit);
-        }
-
-        return $meta_data;
-    }
 }
