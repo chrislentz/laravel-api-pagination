@@ -29,7 +29,8 @@ class ApiPaginate extends AbstractPaginator implements ArrayAccess, Countable, I
         $this->buildUrl();
         $this->generateProperties();
         
-        $this->items->forget($limit);
+        $last_key = $this->items->keys()->last();
+        $this->items = $this->items->forget($last_key);
     }
 
     protected function buildUrl()
