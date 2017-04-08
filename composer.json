@@ -1,6 +1,6 @@
 {
 	"name": "chrislentz/laravel-api-pagination",
-	"description": "A simple pagination package that provides API support via limit and offset parameters for the Laravel framework.",
+	"description": "A pagination package that provides API support via '_limit' and '_offset' parameters for the Laravel framework.",
 	"keywords": [
         "api",
         "paginate",

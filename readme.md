@@ -4,9 +4,7 @@
 [![License](https://poser.pugx.org/chrislentz/laravel-api-pagination/license)](https://packagist.org/packages/chrislentz/laravel-api-pagination)
 
 ## About
-This package provides pagination capabilities with API support via limit and offset parameters for the Laravel framework.
+This package provides pagination capabilities with API support via `_limit` and `_offset` parameters for the Laravel framework.
 
 ## License
-Copyright (c) 2017 Chris Lentz.
-
-The content of this repository is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+The contents of this repository is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
