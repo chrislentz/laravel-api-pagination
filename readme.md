@@ -1,5 +1,4 @@
 [![Latest Stable Version](https://poser.pugx.org/chrislentz/laravel-api-pagination/version)](https://packagist.org/packages/chrislentz/laravel-api-pagination)
-[![Latest Stable Version](https://poser.pugx.org/chrislentz/laravel-api-pagination/version)](https://packagist.org/packages/chrislentz/laravel-api-pagination)
 [![Latest Unstable Version](https://poser.pugx.org/chrislentz/laravel-api-pagination/v/unstable)](//packagist.org/packages/chrislentz/laravel-api-pagination)
 [![License](https://poser.pugx.org/chrislentz/laravel-api-pagination/license)](https://packagist.org/packages/chrislentz/laravel-api-pagination)
 
